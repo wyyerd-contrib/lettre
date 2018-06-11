@@ -233,7 +233,7 @@ impl<'a> SmtpTransport {
     /// Simple and secure transport, should be used when possible.
     /// Creates an encrypted transport over submission port, using the provided domain
     /// to validate TLS certificates.
-    pub fn simple_builder(domain: &str) -> Result<SmtpTransportBuilder, Error> {
+    pub fn simple_builder(domain: &str, port: u16) -> Result<SmtpTransportBuilder, Error> {
         let mut tls_builder = TlsConnector::builder()?;
         tls_builder.supported_protocols(DEFAULT_TLS_PROTOCOLS)?;
 
@@ -241,7 +241,7 @@ impl<'a> SmtpTransport {
             ClientTlsParameters::new(domain.to_string(), tls_builder.build().unwrap());
 
         SmtpTransportBuilder::new(
-            (domain, SUBMISSION_PORT),
+            (domain, port),
             ClientSecurity::Required(tls_parameters),
         )
     }
