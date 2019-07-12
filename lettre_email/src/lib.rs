@@ -358,7 +358,7 @@ impl PartBuilder {
 
     /// Adds a `ContentType` header with the given MIME type
     pub fn set_content_type(&mut self, content_type: &Mime) {
-        self.add_header(("Content-Type", format!("{}", content_type).as_ref()));
+        self.add_header(("Content-Type", format!("{}", content_type).as_str()));
     }
 
     /// Adds a child part
@@ -612,7 +612,7 @@ impl EmailBuilder {
             .body(body)
             .header((
                 "Content-Type",
-                format!("{}", mime::TEXT_PLAIN_UTF_8).as_ref(),
+                format!("{}", mime::TEXT_PLAIN_UTF_8).as_str(),
             ))
             .build();
         self.add_child(text);
@@ -630,7 +630,7 @@ impl EmailBuilder {
             .body(body)
             .header((
                 "Content-Type",
-                format!("{}", mime::TEXT_HTML_UTF_8).as_ref(),
+                format!("{}", mime::TEXT_HTML_UTF_8).as_str(),
             ))
             .build();
         self.add_child(html);
@@ -659,7 +659,7 @@ impl EmailBuilder {
             .body(body_text)
             .header((
                 "Content-Type",
-                format!("{}", mime::TEXT_PLAIN_UTF_8).as_ref(),
+                format!("{}", mime::TEXT_PLAIN_UTF_8).as_str(),
             ))
             .build();
 
@@ -667,7 +667,7 @@ impl EmailBuilder {
             .body(body_html)
             .header((
                 "Content-Type",
-                format!("{}", mime::TEXT_HTML_UTF_8).as_ref(),
+                format!("{}", mime::TEXT_HTML_UTF_8).as_str(),
             ))
             .build();
 
@@ -712,7 +712,7 @@ impl EmailBuilder {
         }
         // Add the sender header, if any.
         if let Some(ref v) = self.sender_header {
-            self.message.add_header(("Sender", v.to_string().as_ref()));
+            self.message.add_header(("Sender", v.to_string().as_str()));
         }
         // Calculate the envelope
         let envelope = match self.envelope {
@@ -785,7 +785,7 @@ impl EmailBuilder {
 
         if !self.date_issued {
             self.message
-                .add_header(("Date", Tm::rfc822z(&now()).to_string().as_ref()));
+                .add_header(("Date", Tm::rfc822z(&now()).to_string().as_str()));
         }
 
         self.message.add_header(("MIME-Version", "1.0"));
